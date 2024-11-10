@@ -25,8 +25,8 @@ To explore more interesting Computer Vision projects, please check [here](https:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Real-Time-FER.git
-   cd Real-Time-FER
+   git clone https://github.com/HoDangCao/Real-time-Emotion-Recognition.git
+   cd Real-time-Emotion-Recognition
    ```
 
 2. Install required libraries:
