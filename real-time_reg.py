@@ -1,21 +1,14 @@
-import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import keras
 from keras.models import Model, load_model, model_from_json
-from keras.layers import Dense, Dropout, Activation, Flatten, Normalization
-from keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Reshape
-from keras.regularizers import l2
-from keras.utils import to_categorical
-from sklearn.metrics import confusion_matrix
-from keras.preprocessing import image
-from sklearn.metrics import f1_score
+from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Conv2D, MaxPooling2D, Reshape
 import cv2
 
 pic_height, pic_width = 48, 48
 num_labels = 7
 
+@keras.saving.register_keras_serializable()
 class CNN(Model):
     def __init__(self):
         super(CNN, self).__init__()
@@ -74,14 +67,18 @@ class CNN(Model):
         x = self.drop4(x)
 
         return self.output_layer(x)
+    
+    def get_config(self):
+        # Return configuration for recreating the model
+        config = super(CNN, self).get_config()
+        return config
 
-model = CNN()
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    @classmethod
+    def from_config(cls, config):
+        return cls()  # Call the constructor without additional parameters
 
-# model = model_from_json(open("fer.json", "r").read())
-# model.load_weights('fer.h5')
 
-# model = load_model('models/cnn.keras')
+model = load_model('models/cnn.keras')
 emotions = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
 
 def predict_img(x, model=model, size=(pic_height, pic_width), verbose=False):
@@ -95,6 +92,7 @@ cap = cv2.VideoCapture(0)
 
 while True:
     ret, test_img = cap.read()
+    test_img = cv2.flip(test_img, 1)
     if not ret: break
 
     gray_img = cv2.cvtColor(test_img, cv2.COLOR_BGR2GRAY)
