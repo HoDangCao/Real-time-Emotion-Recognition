@@ -64,12 +64,9 @@ Press the `q` key to exit the detection window.
 
 ## Saved Model
 
-You can use the pretrained model is saved as:
-- `fer.json`: Model architecture
-- `fer.h5`: Model weights
+You can use the pretrained model is saved as: `models/cnn.keras`
 
 To reload and use the saved model:
 ```python
-model = model_from_json(open("fer.json", "r").read())
-model.load_weights("fer.h5")
+model = load_model('models/cnn.keras')
 ```
