@@ -68,5 +68,6 @@ You can use the pretrained model is saved as: `models/cnn.keras`
 
 To reload and use the saved model:
 ```python
+from keras.models import load_model
 model = load_model('models/cnn.keras')
 ```
